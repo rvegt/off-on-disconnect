@@ -29,20 +29,22 @@ void loop() {
       // if not found and last time not found and checked for nChecks times; switch off
       if ( (wifiFound == wifiLastFound) && (iChecks == nChecks)) {  
         blinkTimes(1);
-        Serial.println("Switching or remaining off. Waiting for 30 seconds before scanning again...");
+        Serial.println("Switching or remaining off. Waiting for 60 seconds before scanning again...");
         digitalWrite(relayPin, HIGH); // since connected to NC, switch to HIGH to switch off power
         iChecks = 0;
+        delay(60000);      // Wait 60 seconds before scanning again if network is not found
       } 
       // if not found for the first time, wait for 30 seconds to check again
       else {  
         blinkTimes(iChecks+1);
         Serial.print("Check for ");
         Serial.print(nChecks-iChecks);
-        Serial.print(" more times");
+        Serial.print(" more times. ");
         Serial.println("Waiting for the result of following scan(s) in 30 seconds before switching off...");
         iChecks++;
+        delay(30000);      // Wait 30 seconds before scanning again if network is not found
       }
-      delay(30000);      // Wait 30 seconds before scanning again if network is not found
+      
     }
   wifiLastFound = wifiFound;
 }
