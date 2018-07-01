@@ -25,17 +25,16 @@ void loop() {
     digitalWrite(relayPin, LOW); // since connected to NC, switch to LOW to switch switch on power
     Serial.println("Waiting for 1 minute before scanning again...");
     delay(60000);     // Wait a minute before scanning again if network is found
-  } else {
-      // if not found and last time not found and checked for nChecks times; switch off
-      if ( (wifiFound == wifiLastFound) && (iChecks == nChecks)) {  
+  } else if ( (wifiFound == wifiLastFound) && (iChecks == nChecks)) {
+          // if not found and last time not found and checked for nChecks times; switch off
         blinkTimes(1);
         Serial.println("Switching or remaining off. Waiting for 60 seconds before scanning again...");
         digitalWrite(relayPin, HIGH); // since connected to NC, switch to HIGH to switch off power
         iChecks = 0;
         delay(60000);      // Wait 60 seconds before scanning again if network is not found
-      } 
+      }
       // if not found for the first time, wait for 30 seconds to check again
-      else {  
+      else {
         blinkTimes(iChecks+1);
         Serial.print("Check for ");
         Serial.print(nChecks-iChecks);
@@ -44,8 +43,7 @@ void loop() {
         iChecks++;
         delay(30000);      // Wait 30 seconds before scanning again if network is not found
       }
-      
-    }
+
   wifiLastFound = wifiFound;
 }
 
@@ -84,5 +82,3 @@ bool findNetwork(String mac) {
   Serial.println("The wifi with MAC " + mac + " is not found");
   return false;
 }
-
-
