@@ -5,7 +5,7 @@ bool wifiLastFound = true;
 String macAddressToFind = "00:00:00:00:00:00";
 int relayPin = D1;      // D1
 int statusLedPin = LED_BUILTIN; //4;  // D2
-int nChecks = 2;
+int nChecks = 4;
 int iChecks = 0;
 
 void setup() {
