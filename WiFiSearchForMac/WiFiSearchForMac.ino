@@ -1,7 +1,6 @@
 #include "ESP8266WiFi.h"
 
 bool wifiFound = false;
-bool wifiLastFound = true;
 String macAddressToFind = "00:00:00:00:00:00";
 int relayPin = D1;      // D1
 int statusLedPin = LED_BUILTIN; //4;  // D2
@@ -24,8 +23,9 @@ void loop() {
   if (wifiFound) {
     digitalWrite(relayPin, LOW); // since connected to NC, switch to LOW to switch switch on power
     Serial.println("Waiting for 1 minute before scanning again...");
+    iChecks = 0;
     delay(60000);     // Wait a minute before scanning again if network is found
-  } else if ( (wifiFound == wifiLastFound) && (iChecks == nChecks)) {
+  } else if (iChecks >= nChecks) {
           // if not found and last time not found and checked for nChecks times; switch off
         blinkTimes(1);
         Serial.println("Switching or remaining off. Waiting for 60 seconds before scanning again...");
@@ -44,7 +44,6 @@ void loop() {
         delay(30000);      // Wait 30 seconds before scanning again if network is not found
       }
 
-  wifiLastFound = wifiFound;
 }
 
 void blinkTimes(int n) {
